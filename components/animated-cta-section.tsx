@@ -11,7 +11,7 @@ export function AnimatedCTASection() {
   return (
     <section className="relative py-20 px-4 overflow-hidden">
       <div className="absolute inset-0">
-        <div className="h-full w-full bg-gradient-to-br from-gray-900 via-black to-gray-800">
+        <div className="h-full w-full bg-gradient-to-br from-red-800 via-red-900 to-red-800">
           <BackgroundPaths />
           <div className="absolute inset-0 opacity-20">
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
@@ -27,13 +27,13 @@ export function AnimatedCTASection() {
         </div>
       </div>
 
-      <div className="absolute inset-0 bg-black/20" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/20" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60" />
+      <div className="absolute inset-0 bg-red-900/20" />
+      <div className="absolute inset-0 bg-gradient-to-b from-red-900/20 via-transparent to-red-900/20" />
+      <div className="absolute inset-0 bg-gradient-to-r from-red-900/60 via-transparent to-red-900/60" />
       <div
-        className="absolute inset-0 bg-radial-gradient from-transparent via-transparent to-black/40"
+        className="absolute inset-0 bg-radial-gradient from-transparent via-transparent to-red-900/40"
         style={{
-          background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.4) 70%)",
+          background: "radial-gradient(ellipse at center, transparent 30%, rgba(153,0,0,0.4) 70%)",
         }}
       />
 
@@ -60,19 +60,19 @@ export function AnimatedCTASection() {
             style={{ animationDelay: "0.9s" }}
           >
             <a href="mailto:contact@contact.contact?subject=اشتراك%20في%20مرشد%20Loi&body=مرحباً،%20أريد%20الاشتراك%20في%20مرشد%20Loi">
-              <Button size="lg" className="bg-white text-black hover:bg-white/90 group">
+              <Button size="lg" className="bg-white text-red-900 hover:bg-white/90 group">
                 اشترك الآن
                 <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Button>
             </a>
 
               <a
-                href="https://wa.me/12345678?text=مرحباً، أريد التواصل معكم"
+                href="https://wa.me/+21628888612?text=مرحباً، أريد التواصل معكم"
                 target="_blank"
                 rel="noopener noreferrer"
               >
 <a
-  href="https://wa.me/12345678?text=مرحباً، أريد التواصل معكم"
+  href="https://wa.me/+21628888612?text=مرحباً، أريد التواصل معكم"
   target="_blank"
   rel="noopener noreferrer"
 >

@@ -21,18 +21,10 @@ export function HeroSection() {
             <div className="group relative m-auto max-w-6xl">
               <div className="flex flex-col items-center md:flex-row">
                 <div className="md:max-w-44 md:border-r md:border-gray-600 md:pr-6 mb-4 md:mb-0">
-                  <p className="text-end text-sm text-gray-400">لكافة جامعات القانون في تونس</p>
+                  <p className="text-end text-sm text-white-400">لكافة جامعات القانون في تونس</p>
                 </div>
                 <div className="relative py-6 md:w-[calc(100%-11rem)]">
                   <InfiniteSlider durationOnHover={20} duration={40} gap={112}>
-                    <div className="flex">
-                      <img
-                        className="mx-auto h-15 w-fit invert opacity-150 hover:opacity-150 transition-opacity"
-                        src="./images/design-mode/1.svg"
-                        height="20"
-                        width="auto"
-                      />
-                    </div>
 
                     <div className="flex">
                       <img
