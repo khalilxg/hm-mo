@@ -283,7 +283,7 @@ export function PricingSection() {
                       dir="ltr"
                       className="text-3xl font-mono font-bold text-white tracking-wider"
                     >
-                      7623582
+                      53390171
                     </p>
                   </div>
 
