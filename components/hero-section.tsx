@@ -13,12 +13,29 @@ export function HeroSection() {
 
       <div className="container mx-auto text-center relative z-10 pb-8">
         <div className="max-w-4xl mx-auto">
-<h2 
-  dir="rtl" 
-  className="text-2xl md:text-3xl font-bold text-white mb-6 text-center mx-auto max-w-4xl"
->
-  مُرشد هو <span dir="ltr" className="text-gray-300">Chat-GPT</span> القانون التونسي المخصّص لطلبة الحقوق، ويضمّ جميع مجلات القانون التونسي ضمن قاعدة بياناته
-</h2>
+<div className="flex flex-col items-center justify-center text-center px-4">
+  {/* The Main Heading */}
+  <h2 
+    dir="rtl" 
+    className="text-2xl md:text-3xl font-bold text-white mb-4 max-w-4xl leading-relaxed"
+  >
+    مُرشد هو <span dir="ltr" className="text-gray-300">Chat-GPT</span> القانون التونسي المخصّص لطلبة الحقوق، ويضمّ جميع مجلات القانون التونسي ضمن قاعدة بياناته
+  </h2>
+
+  {/* The New Stats Style */}
+  <div 
+    dir="rtl"
+    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm"
+  >
+    <span className="relative flex h-3 w-3">
+      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+      <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+    </span>
+    <p className="text-lg font-medium text-white">
+      أكثر من <span className="text-red-400 font-bold text-xl">+9000</span> طالب ومستخدم في كامل تراب الجمهورية
+    </p>
+  </div>
+</div>
 
           <div className="mt-16 mb-8">
             <div className="group relative m-auto max-w-6xl">
