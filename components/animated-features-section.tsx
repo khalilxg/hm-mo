@@ -81,7 +81,7 @@ export function AnimatedFeaturesSection() {
             style={{ fontFamily: "var(--font-playfair)" }}
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           >
-            أذكى من مجرد دردشة
+            أذكى من مجرد شات
           </motion.h2>
         </div>
 
