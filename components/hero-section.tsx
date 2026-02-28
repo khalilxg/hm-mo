@@ -13,9 +13,9 @@ export function HeroSection() {
 
       <div className="container mx-auto text-center relative z-10 pb-8">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 text-balance">
-             موسوعة مرشد قانون لطلبة الحقوق  <span className="text-gray-300"> تضم جميع مجلات القانون التونسي</span>
-          </h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 text-balance">
+          مُرشد هو <span className="text-gray-300">Chat-GPT القانون التونسي المخصّص لطلبة الحقوق، ويضمّ جميع مجلات القانون التونسي ضمن قاعدة بياناته</span>
+        </h2>
 
           <div className="mt-16 mb-8">
             <div className="group relative m-auto max-w-6xl">
