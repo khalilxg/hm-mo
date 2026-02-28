@@ -245,19 +245,18 @@ export function PricingSection() {
                 ))}
               </ul>
 
-            <Button
-              onClick={() => handleSubscribeClick(plan)}
-              {/* The 'hidden' class is added right here */}
-              className={`hidden w-full ${
-                plan.popular
-                  ? "bg-white text-red-900 hover:bg-white/90"
-                  : "bg-transparent border border-white/20 text-white hover:bg-white/10"
-              } group`}
-              size="lg"
-            >
-              {plan.name === "خطة المحامين" ? "تواصل معنا" : "اشترك الآن"}
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
+          <Button
+            onClick={() => handleSubscribeClick(plan)}
+            className={`hidden w-full ${
+              plan.popular
+                ? "bg-white text-red-900 hover:bg-white/90"
+                : "bg-transparent border border-white/20 text-white hover:bg-white/10"
+            } group`}
+            size="lg"
+          >
+            {plan.name === "خطة المحامين" ? "تواصل معنا" : "اشترك الآن"}
+            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          </Button>
 
             </motion.div>
           ))}
