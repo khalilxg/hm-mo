@@ -14,25 +14,25 @@ export function HeroSection() {
       <div className="container mx-auto text-center relative z-10 pb-8">
         <div className="max-w-4xl mx-auto">
 <div className="flex flex-col items-center justify-center text-center px-4">
-  {/* The Main Heading */}
+  {/* The Main Heading - Now slightly smaller */}
   <h2 
     dir="rtl" 
-    className="text-2xl md:text-3xl font-bold text-white mb-4 max-w-4xl leading-relaxed"
+    className="text-xl md:text-2xl font-bold text-white mb-4 max-w-3xl leading-relaxed"
   >
-    مُرشد هو <span dir="ltr" className="text-gray-300">Chat-GPT</span> القانون التونسي المخصّص لطلبة الحقوق، ويضمّ جميع مجلات القانون التونسي ضمن قاعدة بياناته
+    مُرشد هو <span dir="ltr" className="text-gray-400">Chat-GPT</span> القانون التونسي المخصّص لطلبة الحقوق، ويضمّ جميع مجلات القانون التونسي ضمن قاعدة بياناته
   </h2>
 
-  {/* The New Stats Style */}
+  {/* Compact Stats Badge */}
   <div 
     dir="rtl"
-    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm"
+    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm"
   >
-    <span className="relative flex h-3 w-3">
+    <span className="relative flex h-2 w-2">
       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-      <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
     </span>
-    <p className="text-lg font-medium text-white">
-      أكثر من <span className="text-red-400 font-bold text-xl">+9000</span> طالب ومستخدم في كامل تراب الجمهورية
+    <p className="text-sm md:text-base font-medium text-gray-200">
+      أكثر من <span className="text-white font-bold">+9000</span> طالب ومستخدم في تونس
     </p>
   </div>
 </div>
