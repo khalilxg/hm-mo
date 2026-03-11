@@ -125,7 +125,31 @@ export function AnimatedFeaturesSection() {
                 <span className="flex items-center gap-1 text-red-400"><AlertTriangle size={12}/> لا للهلوة القانونية</span>
              </div>
           </motion.div>
-
+<motion.div 
+  className="col-span-1 md:col-span-1 row-span-2 bg-zinc-900 border border-white/10 rounded-3xl overflow-hidden flex items-center justify-center relative group"
+  initial={{ opacity: 0, scale: 0.9 }} 
+  whileInView={{ opacity: 1, scale: 1 }}
+  transition={{ delay: 0.2 }}
+>
+  <div className="w-full h-full aspect-[9/16] max-h-[500px]">
+    <iframe 
+      src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F823216643778374%2F&show_text=false&width=267&t=0" 
+      width="100%" 
+      height="100%" 
+      style={{ border: 'none', overflow: 'hidden' }} 
+      scrolling="no" 
+      frameBorder="0" 
+      allowFullScreen={true} 
+      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+      className="rounded-2xl"
+    ></iframe>
+  </div>
+  
+  {/* Optional Overlay Label */}
+  <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-md px-2 py-1 rounded-full text-[10px] text-white border border-white/10 pointer-events-none">
+     فيديو توضيحي
+  </div>
+</motion.div>
           {/* Speed Card */}
           <BentoCard
             className="col-span-1"
@@ -135,7 +159,14 @@ export function AnimatedFeaturesSection() {
             colors={["#450a0a", "#991b1b"]}
             delay={0.3}
           />
-
+          <BentoCard
+            className="col-span-1"
+            title="الاستجابة"
+            value="فوري"
+            icon={<Zap size={18} />}
+            colors={["#450a0a", "#991b1b"]}
+            delay={0.3}
+          />
           {/* Accuracy Card */}
           <BentoCard
             className="col-span-1"
