@@ -150,15 +150,7 @@ export function AnimatedFeaturesSection() {
      فيديو توضيحي
   </div>
 </motion.div>
-          {/* Speed Card */}
-          <BentoCard
-            className="col-span-1"
-            title="الاستجابة"
-            value="فوري"
-            icon={<Zap size={18} />}
-            colors={["#450a0a", "#991b1b"]}
-            delay={0.3}
-          />
+
           <BentoCard
             className="col-span-1"
             title="الاستجابة"
