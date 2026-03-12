@@ -7,9 +7,12 @@ import { ProgressiveBlur } from "./ui/progressive-blur"
 export function HeroSection() {
   return (
     <section className="py-20 px-4 relative overflow-hidden min-h-screen flex flex-col justify-between">
-      <div className="flex-1 flex items-start justify-center pt-20">
-        <ParticleTextEffect words={["مرشد", "قانون", "تونس", "مرشد"]} />
-      </div>
+<div 
+  className="flex items-start justify-center pt-16"
+  style={{ minHeight: 'clamp(260px, 45vw, 420px)' }}
+>
+  <ParticleTextEffect words={["مرشد", "قانون", "تونس", "مرشد"]} />
+</div>
 
       <div className="container mx-auto text-center relative z-10 pb-8">
         <div className="max-w-4xl mx-auto">
