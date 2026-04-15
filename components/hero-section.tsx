@@ -1,9 +1,74 @@
+'use server'
 import { Button } from "./ui/button"
 import { ArrowRight } from "lucide-react"
 import { ParticleTextEffect } from "./particle-text-effect"
 import { InfiniteSlider } from "./ui/infinite-slider"
 import { ProgressiveBlur } from "./ui/progressive-blur"
 
+import { redirect } from 'next/navigation'
+
+export async function handleQuickStart() {
+  const API_URL = "https://loi.morched.tn/api/v1";
+  // Updated to use your existing BOTAPI env variable
+  const API_KEY = process.env.BOTAPI; 
+  const WORKSPACE = "loi";
+
+  // Create a unique guest identifier
+  const username = `web_guest_${Math.floor(Math.random() * 10000)}`;
+
+  try {
+    // 1. Create the User
+    const userRes = await fetch(`${API_URL}/admin/users/new`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username,
+        password: "TempPassword123!", // Required by AnythingLLM schema
+        role: "default"
+      })
+    });
+
+    const userData = await userRes.json();
+    const userId = userData.user?.id;
+
+    if (!userId) {
+       console.error("User creation failed. Check if BOTAPI key is valid.");
+       throw new Error("User ID not returned");
+    }
+
+    // 2. Add user to the 'loi' workspace
+    await fetch(`${API_URL}/admin/workspaces/${WORKSPACE}/manage-users`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userIds: [userId], reset: false })
+    });
+
+    // 3. Issue the SSO Token (Expires in 1 hour)
+    const tokenRes = await fetch(`${API_URL}/users/${userId}/issue-auth-token`, {
+      method: 'GET',
+      headers: { 'Authorization': `Bearer ${API_KEY}` }
+    });
+
+    const { token } = await tokenRes.json();
+
+    // 4. Final Redirect to the Chat
+    // Uses the exact logic from your .sh script
+    const ssoUrl = `https://loi.morched.tn/sso/simple?token=${token}&redirectTo=/workspace/${WORKSPACE}`;
+    
+    redirect(ssoUrl);
+
+  } catch (error) {
+    console.error("SSO flow failed:", error);
+    // If it fails, send them to the main page so they aren't stuck on a white screen
+    redirect('https://loi.morched.tn/'); 
+  }
+}
 export function HeroSection() {
   return (
     <section className="py-20 px-4 relative overflow-hidden min-h-screen flex flex-col justify-between">
@@ -41,23 +106,22 @@ export function HeroSection() {
 </div>
 
 
-<div className="flex flex-col items-center gap-2 mt-2"> {/* Reduced mt-6 to mt-2 to save space */}
-  <a
-    href="https://loi.morched.tn/"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="inline-flex items-center gap-3 px-7 py-2.5 rounded-full font-bold text-base transition-all duration-150 hover:scale-105"
-    style={{
-      backgroundColor: '#ffffff', // White background
-      color: '#ef4444',           // Red text (Tailwind red-500)
-      boxShadow: '0 4px 14px 0 rgba(0, 0, 0, 0.1)', // Subtle shadow for visibility on dark bg
-      direction: 'rtl'
-    }}
-  >
-    <span>ابدأ الآن مجاناً</span>
-    <ArrowRight className="w-4 h-4 rotate-180" />
-  </a>
-  {/* Subtext paragraph removed */}
+<div className="flex flex-col items-center gap-2 mt-2">
+  <form action={handleQuickStart}>
+    <button
+      type="submit"
+      className="inline-flex items-center gap-3 px-7 py-2.5 rounded-full font-bold text-base transition-all duration-150 hover:scale-105 active:scale-95"
+      style={{
+        backgroundColor: '#ffffff',
+        color: '#ef4444',
+        boxShadow: '0 4px 14px 0 rgba(0, 0, 0, 0.1)',
+        direction: 'rtl'
+      }}
+    >
+      <span>ابدأ الآن مجاناً</span>
+      <ArrowRight className="w-4 h-4 rotate-180" />
+    </button>
+  </form>
 </div>
 
           
