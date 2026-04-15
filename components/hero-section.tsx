@@ -1,4 +1,4 @@
-'use client' // Step 1: File is client-side for UI interactivity
+'use client'
 
 import { Button } from "./ui/button"
 import { ArrowRight } from "lucide-react"
@@ -9,9 +9,9 @@ import { redirect } from 'next/navigation'
 
 export function HeroSection() {
   
-  // Step 2: Define the action inside the component or same file
+  // Step 2: Define the action inside the component
   async function handleQuickStart() {
-    'use server' // Step 3: Inline server directive makes ONLY this function a server action
+    'use server' // Inline directive to allow server logic in client file
     
     const API_URL = "https://loi.morched.tn/api/v1";
     const API_KEY = process.env.BOTAPI; 
@@ -52,9 +52,8 @@ export function HeroSection() {
       });
 
       const { token } = await tokenRes.json();
-      
-      // Build the URL before redirecting
       const ssoUrl = `https://loi.morched.tn/sso/simple?token=${token}&redirectTo=/workspace/${WORKSPACE}`;
+      
       redirect(ssoUrl);
 
     } catch (error: any) {
@@ -103,7 +102,7 @@ export function HeroSection() {
                 <ArrowRight className="w-4 h-4 rotate-180" />
               </button>
             </form>
-          </div
+          </div>
           
           <div className="mt-16 mb-8">
             <div className="group relative m-auto max-w-6xl">
