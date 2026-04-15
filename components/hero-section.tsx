@@ -40,8 +40,8 @@ export function HeroSection() {
   </div>
 </div>
 
-          <div className="flex flex-col items-center gap-2 mt-6">
-  
+<div className="flex flex-col items-center gap-2 mt-6">
+  <a  // <--- Add this opening tag
     href="https://loi.morched.tn/"
     target="_blank"
     rel="noopener noreferrer"
