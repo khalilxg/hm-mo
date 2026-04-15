@@ -39,10 +39,10 @@ export function HeroSection() {
     </p>
   </div>
 </div>
-{/* ADD THIS after the stats badge div */}
-<div className="flex flex-col items-center gap-2 mt-6">
+
+          <div className="flex flex-col items-center gap-2 mt-6">
   
-    href="https://xyzcom.com"
+    href="https://loi.morched.tn/"
     target="_blank"
     rel="noopener noreferrer"
     className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full text-white font-medium text-base transition-all duration-150 hover:scale-105"
