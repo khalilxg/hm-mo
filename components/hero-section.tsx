@@ -40,23 +40,27 @@ export function HeroSection() {
   </div>
 </div>
 
-<div className="flex flex-col items-center gap-2 mt-6">
-  <a  // <--- Add this opening tag
+
+<div className="flex flex-col items-center gap-2 mt-2"> {/* Reduced mt-6 to mt-2 to save space */}
+  <a
     href="https://loi.morched.tn/"
     target="_blank"
     rel="noopener noreferrer"
-    className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full text-white font-medium text-base transition-all duration-150 hover:scale-105"
+    className="inline-flex items-center gap-3 px-7 py-2.5 rounded-full font-bold text-base transition-all duration-150 hover:scale-105"
     style={{
-      background: 'linear-gradient(135deg, #7c3aed, #4f46e5)',
-      boxShadow: '0 0 0 1px rgba(124,58,237,0.3), 0 4px 24px rgba(124,58,237,0.35)',
+      backgroundColor: '#ffffff', // White background
+      color: '#ef4444',           // Red text (Tailwind red-500)
+      boxShadow: '0 4px 14px 0 rgba(0, 0, 0, 0.1)', // Subtle shadow for visibility on dark bg
       direction: 'rtl'
     }}
   >
     <span>ابدأ الآن مجاناً</span>
     <ArrowRight className="w-4 h-4 rotate-180" />
   </a>
-  <p className="text-xs text-gray-500">لا يلزم إنشاء حساب</p>
+  {/* Subtext paragraph removed */}
 </div>
+
+          
           <div className="mt-16 mb-8">
             <div className="group relative m-auto max-w-6xl">
               <div className="flex flex-col items-center md:flex-row">
