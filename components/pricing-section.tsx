@@ -1,9 +1,9 @@
 "use client"
  
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "./ui/button"
-import { Check } from "lucide-react"
+import { Check, MessageCircle } from "lucide-react"
  
 const pricingPlans = [
   {
@@ -48,7 +48,11 @@ const pricingPlans = [
  
 export function PricingSection() {
   const [showPaymentInfo, setShowPaymentInfo] = useState(false)
+  const [glow, setGlow] = useState(false)
  
+  const paymentSectionRef = useRef(null)
+ 
+  // Smooth scroll + highlight animation
   const handleSubscribeClick = (plan) => {
     if (plan.enterprise) {
       window.location.href = "tel:+21628888612"
@@ -56,13 +60,31 @@ export function PricingSection() {
     }
  
     setShowPaymentInfo(true)
+ 
+    // Wait for block to render
+    setTimeout(() => {
+      paymentSectionRef.current?.scrollIntoView({ behavior: "smooth" })
+ 
+      // Glow animation
+      setGlow(true)
+      setTimeout(() => setGlow(false), 1800)
+    }, 200)
   }
  
   return (
     <section
       dir="rtl"
-      className="py-16 px-4 bg-gradient-to-b from-red-700 to-red-900 min-h-screen text-white"
+      className="py-16 px-4 bg-gradient-to-b from-red-700 to-red-900 min-h-screen text-white relative"
     >
+      {/* Floating WhatsApp Button */}
+      <a
+        href="https://wa.me/21628888612"
+        target="_blank"
+        className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-xl p-4 z-50 flex items-center justify-center transition transform hover:scale-110"
+      >
+        <MessageCircle className="w-7 h-7" />
+      </a>
+ 
       <div className="text-center text-2xl md:text-3xl font-extrabold mb-12 leading-relaxed">
         قوة القانون… بذكاء اصطناعي يفهمك، يساعدك، ويختصر عليك ساعات طويلة.
         <br /> لأن مستقبلك يستحق أفضل الأدوات وأسرع الحلول.
@@ -113,14 +135,18 @@ export function PricingSection() {
         </div>
       </div>
  
-      {/* PAYMENT INFO SECTION (YOUR BLOCK) */}
+      {/* PAYMENT INFO SECTION */}
       <AnimatePresence>
         {showPaymentInfo && (
           <motion.div
+            ref={paymentSectionRef}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="mt-16 max-w-3xl mx-auto"
+            className={`
+              mt-16 max-w-3xl mx-auto transition 
+              ${glow ? "ring-4 ring-red-400 ring-opacity-60" : ""}
+            `}
           >
             <div dir="rtl" className="space-y-6">
  
