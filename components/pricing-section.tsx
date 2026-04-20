@@ -1,4 +1,269 @@
 "use client"
+ 
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Button } from "./ui/button"
+import { Check, X, Phone, MessageCircle } from "lucide-react"
+ 
+// Konnect API Config
+const KONNECT_WALLET_ID = process.env.NEXT_PUBLIC_KONNECT_WALLET_ID;
+const KONNECT_API_KEY = process.env.NEXT_PUBLIC_KONNECT_API_KEY;
+const KONNECT_API_URL = process.env.NEXT_PUBLIC_KONNECT_API_URL || "https://api.konnect.network/api/v2/payments/init-payment";
+ 
+// -------------------- PRICING PLANS --------------------
+const pricingPlans = [
+  {
+    name: "خطة الطلبة",
+    price: "50 د.ت",
+    priceValue: 50000,
+    description: "مناسبة لطلبة الحقوق في جميع المستويات",
+    features: [
+      "مدة الاشتراك: 7 أشهر + 5 أشهر مجانية",
+      "500 رسالة مع الذكاء الاصطناعي",
+      "أكثر من 5000 وثيقة قانونية",
+    ],
+  },
+  {
+    name: "الخطة المتقدمة",
+    price: "100 د.ت",
+    priceValue: 100000,
+    description: "للطلاب المتقدمين والتكوين المهني",
+    features: [
+      "مدة الاشتراك: 7 أشهر + 5 أشهر مجانية",
+      "1000 رسالة مع الذكاء الاصطناعي",
+      "الوصول الكامل إلى جميع مجلات القانون",
+    ],
+    popular: true,
+  },
+ 
+  // ---------------- ENTERPRISE / PRIVATE INSTANCE ----------------
+  {
+    name: "الخطة المؤسسية – نسخة خاصة للهيئات والشركات",
+    price: "حلول مخصّصة",
+    priceValue: null,
+    description:
+      "حل متكامل يمنح مؤسستك نسخة خاصة بالكامل من النظام، مع الهوية البصرية الخاصة بكم، موجه للمؤسسات والهيئات الحكومية والخاصة.",
+    features: [
+      "نسخة كاملة Private Instance",
+      "تثبيت جاهز كصورة Docker",
+      "DNS خاص بالمؤسسة",
+      "White Label: شعار وهوية المؤسسة",
+      "إدارة المستخدمين (صلاحيات – أدوار)",
+      "تكامل API مع أنظمة المؤسسة",
+      "دمج الشات بوت في أي موقع / تطبيق",
+      "التحكم الكامل في مزود الذكاء الاصطناعي",
+      "حماية كاملة للبيانات داخل خوادمكم",
+    ],
+    enterprise: true,
+  },
+]
+ 
+export function PricingSection() {
+  const [selectedPlan, setSelectedPlan] = useState(null)
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const [statusMsg, setStatusMsg] = useState(null)
+ 
+  // Check payment status
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const status = params.get("payment_status")
+ 
+    if (status === "success") {
+      setStatusMsg({
+        type: "success",
+        text: "🎉 تم الدفع بنجاح! سيتم إرسال بيانات الدخول عبر SMS قريباً."
+      })
+    } else if (status === "failed") {
+      setStatusMsg({
+        type: "error",
+        text: "❌ فشلت عملية الدفع. يرجى المحاولة مجدداً."
+      })
+    }
+ 
+    window.history.replaceState({}, document.title, window.location.pathname)
+  }, [])
+ 
+  // Handle click
+  const handleSubscribeClick = (plan) => {
+    if (plan.enterprise) {
+      window.location.href = "tel:+21628888612"
+      return
+    }
+ 
+    setSelectedPlan(plan)
+    setShowModal(true)
+  }
+ 
+  // Konnect Payment
+  const initiateKonnectPayment = async (e) => {
+    e.preventDefault()
+ 
+    if (!phoneNumber || phoneNumber.length < 8) {
+      alert("يرجى إدخال رقم هاتف صحيح")
+      return
+    }
+ 
+    if (!selectedPlan?.priceValue) return
+ 
+    setLoading(true)
+ 
+    try {
+      const response = await fetch(KONNECT_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": KONNECT_API_KEY,
+        },
+        body: JSON.stringify({
+          receiverWalletId: KONNECT_WALLET_ID,
+          token: "TND",
+          amount: selectedPlan.priceValue,
+          type: "immediate",
+          acceptedPaymentMethods: ["wallet", "bank_card", "e-DINAR"],
+          checkoutForm: true,
+          phoneNumber: phoneNumber,
+          successUrl: `${window.location.origin}${window.location.pathname}?payment_status=success`,
+          failUrl: `${window.location.origin}${window.location.pathname}?payment_status=failed`,
+        }),
+      })
+ 
+      const data = await response.json()
+      if (data.payUrl) window.location.href = data.payUrl
+ 
+    } catch (error) {
+      alert("حدث خطأ غير متوقع.")
+    }
+ 
+    setLoading(false)
+  }
+ 
+  return (
+    <section id="pricing" className="py-20 px-4 bg-red-950 relative">
+ 
+      {/* PAYMENT STATUS ALERT */}
+      <AnimatePresence>
+        {statusMsg && (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-6 py-4 rounded-lg shadow-xl text-white font-bold
+              ${statusMsg.type === "success" ? "bg-green-600" : "bg-red-600"}`}
+          >
+            {statusMsg.text}
+            <button onClick={() => setStatusMsg(null)}>
+              <X className="w-4 h-4 ml-4" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+ 
+      {/* NEUROMARKETING MESSAGE */}
+      <div className="text-center text-white text-xl font-semibold mb-10 opacity-90">
+        مستقبل الذكاء القانوني… بعقول وخبرة تونسية 100%.  
+        للطلبة، للمحامين، وللمؤسسات التي تبحث عن السرعة والاحترافية.
+      </div>
+ 
+      {/* PRICING PLANS */}
+      <div className="container mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+ 
+          {pricingPlans.map((plan, i) => (
+            <motion.div key={i}
+              className={`relative bg-white/10 border border-white/20 rounded-xl p-8 backdrop-blur
+              ${plan.enterprise ? "shadow-xl shadow-yellow-500/30 border-yellow-300" : ""}`}
+              whileHover={{ scale: 1.03 }}
+            >
+ 
+              {/* Enterprise Badge */}
+              {plan.enterprise && (
+                <div className="absolute top-3 right-3 bg-yellow-500 text-black px-3 py-1 text-xs font-bold rounded">
+                  ENTERPRISE
+                </div>
+              )}
+ 
+              <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+              <div className="text-4xl text-white mb-4">{plan.price}</div>
+              <p className="text-gray-200 mb-6">{plan.description}</p>
+ 
+              <ul className="space-y-3 mb-6">
+                {plan.features.map((f, index) => (
+                  <li key={index} className="flex text-gray-200">
+                    <Check className="w-5 h-5 text-green-300 mr-2" /> {f}
+                  </li>
+                ))}
+              </ul>
+ 
+              <Button
+                className="w-full bg-white text-black font-bold"
+                onClick={() => handleSubscribeClick(plan)}
+              >
+                {plan.enterprise ? "اتصل بنا الآن" : "اشترك الآن"}
+              </Button>
+ 
+            </motion.div>
+          ))}
+ 
+        </div>
+      </div>
+ 
+      {/* PAYMENT MODAL */}
+      {showModal && selectedPlan && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg max-w-md w-full">
+ 
+            <h3 className="text-xl font-bold mb-4">إتمام الدفع – {selectedPlan.name}</h3>
+ 
+            <form onSubmit={initiateKonnectPayment}>
+              <input
+                type="text"
+                placeholder="رقم الهاتف"
+                className="w-full p-3 border mb-4 rounded"
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+ 
+              <Button disabled={loading} className="w-full bg-red-600 text-white">
+                {loading ? "جاري المعالجة..." : "متابعة الدفع"}
+              </Button>
+ 
+              <button
+                className="w-full mt-4 text-red-600"
+                onClick={() => setShowModal(false)}
+              >
+                إلغاء
+              </button>
+            </form>
+ 
+          </div>
+        </div>
+      )}
+ 
+      {/* FLOATING CTA BUTTON */}
+      <a
+        href="tel:+21628888612"
+        className="fixed bottom-6 right-6 bg-yellow-400 text-black px-6 py-3 rounded-full shadow-xl font-bold flex items-center gap-2 z-50"
+      >
+        <Phone /> نسخة مؤسسية؟ اتصل الآن
+      </a>
+ 
+      {/* WHATSAPP WIDGET */}
+      <a
+        href="https://wa.me/21628888612?text=مرحباً، أريد نسخة مؤسسية من النظام"
+        target="_blank"
+        className="fixed bottom-6 left-6 bg-green-500 text-white p-4 rounded-full shadow-xl z-50"
+      >
+        <MessageCircle className="w-6 h-6" />
+      </a>
+ 
+    </section>
+  )
+}
+
+
+{/*
+"use client"
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -167,7 +432,7 @@ export function PricingSection() {
 
   return (
     <section id="pricing" className="py-20 px-4 bg-red-950 relative">
-      {/* Alert Message for Success/Fail */}
+    
       <AnimatePresence>
         {statusMsg && (
           <motion.div 
@@ -272,10 +537,10 @@ export function PricingSection() {
             >
               <div dir="rtl" className="space-y-6">
 
-                {/* Payment Methods */}
+        
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                  {/* D17 */}
+              
                   <div className="rounded-2xl border border-white/20 bg-white/5 px-6 py-6 text-center">
                     <p className="text-lg font-semibold text-white mb-2">
                       الدفع عبر D17
@@ -288,7 +553,7 @@ export function PricingSection() {
                     </p>
                   </div>
 
-                  {/* RIB */}
+              
                   <div className="rounded-2xl border border-white/20 bg-white/5 px-6 py-6 text-center">
                     <p className="text-lg font-semibold text-white mb-2">
                       التحويل البنكي (RIB)
@@ -302,10 +567,10 @@ export function PricingSection() {
                   </div>
                 </div>
 
-                {/* Verification / Quitance */}
+              
                 <div className="relative rounded-2xl border border-red-500/40 bg-red-500/10 px-6 py-6 text-center overflow-hidden">
                   
-                  {/* Glow */}
+               
                   <div className="absolute inset-0 bg-red-500/20 blur-2xl opacity-40 pointer-events-none" />
 
                   <div className="relative space-y-3">
@@ -342,7 +607,7 @@ export function PricingSection() {
 
       </div>
 
-      {/* --- Phone Number Modal --- */}
+
       <AnimatePresence>
         {showModal && selectedPlan && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
@@ -415,3 +680,4 @@ export function PricingSection() {
     </section>
   )
 }
+*/}
