@@ -162,11 +162,7 @@ export function PricingSection() {
       </AnimatePresence>
  
       {/* Neuromarketing Header */}
-      <div className="text-center text-2xl md:text-3xl font-extrabold mb-12 leading-relaxed">
-        قوة القانون… بذكاء اصطناعي يفهمك، يساعدك، ويختصر عليك ساعات طويلة.
-        <br />
-        لأن مستقبلك يستحق **أفضل الأدوات** و **أسرع الحلول**.
-      </div>
+<div className="text-center text-2xl md:text-3xl font-extrabold mb-12 leading-relaxed"> قوة القانون… بذكاء اصطناعي يفهمك، يساعدك، ويختصر عليك ساعات طويلة. <br /> لأن مستقبلك يستحق أفضل الأدوات وأسرع الحلول. <br /> لذلك وفرنا لك مرشد قانون. </div>
  
       {/* Pricing Grid */}
       <div className="container mx-auto">
@@ -274,5 +270,80 @@ export function PricingSection() {
       </a>
  
     </section>
+   <motion.div
+              className="mt-16 max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+            >
+              <div dir="rtl" className="space-y-6">
+
+       
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+             
+                  <div className="rounded-2xl border border-white/20 bg-white/5 px-6 py-6 text-center">
+                    <p className="text-lg font-semibold text-white mb-2">
+                      الدفع عبر D17
+                    </p>
+                    <p
+                      dir="ltr"
+                      className="text-3xl font-mono font-bold text-white tracking-wider"
+                    >
+                      28888612
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-white/20 bg-white/5 px-6 py-6 text-center">
+                    <p className="text-lg font-semibold text-white mb-2">
+                      التحويل البنكي (RIB)
+                    </p>
+                    <p
+                      dir="ltr"
+                      className="text-sm sm:text-base font-mono font-bold text-white break-all"
+                    >
+                      25 072 000 000 1310382 37
+                    </p>
+                  </div>
+                </div>
+
+              
+                <div className="relative rounded-2xl border border-red-500/40 bg-red-500/10 px-6 py-6 text-center overflow-hidden">
+                  
+          
+                  <div className="absolute inset-0 bg-red-500/20 blur-2xl opacity-40 pointer-events-none" />
+
+                  <div className="relative space-y-3">
+                    <p className="text-lg font-bold text-white">
+                      تأكيد الدفع (Quitance de paiement)
+                    </p>
+
+                    <p className="text-sm text-gray-200 leading-relaxed">
+                      بعد إتمام الدفع، الرجاء إرسال <span className="text-white font-semibold"> وصل / إثبات الدفع </span>
+                      عبر واتساب أو البريد الإلكتروني.
+                    </p>
+
+                    <div className="space-y-1 text-sm">
+                      <p dir="ltr" className="text-white font-medium">
+                        📱 WhatsApp: +216 28 888 612
+                      </p>
+                      <p dir="ltr" className="text-white font-medium">
+                        ✉️ Email: contact@aibc.tn
+                      </p>
+                    </div>
+
+                    <p className="text-xs text-gray-300 mt-2 leading-relaxed">
+                      بعد التحقق من عملية الدفع، سيقوم فريق الإدارة بإرسال
+                      <span className="text-white font-medium"> اسم المستخدم </span>
+                      ورابط منصة
+                      <span className="text-white font-medium"> مرشد قانون </span>
+                      عبر رسالة SMS.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </motion.div>
   )
 }
