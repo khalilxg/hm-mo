@@ -2,7 +2,9 @@ import { LeLoLogo } from "./lelo-logo"
 
 export function Footer() {
   return (
-    <footer className="bg-red-950 border-t border-white/10 py-12 px-4">
+    <footer 
+      dir="rtl"
+      className="bg-red-950 border-t border-white/10 py-12 px-4">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
