@@ -5,75 +5,68 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "./ui/button"
 import { Check, X, Phone, MessageCircle } from "lucide-react"
  
-// ---------------------------------------------------
-// KONNECT API CONFIG
-// ---------------------------------------------------
-const KONNECT_WALLET_ID = process.env.NEXT_PUBLIC_KONNECT_WALLET_ID
-const KONNECT_API_KEY = process.env.NEXT_PUBLIC_KONNECT_API_KEY
+const KONNECT_WALLET_ID = process.env.NEXT_PUBLIC_KONNECT_WALLET_ID;
+const KONNECT_API_KEY = process.env.NEXT_PUBLIC_KONNECT_API_KEY;
 const KONNECT_API_URL =
   process.env.NEXT_PUBLIC_KONNECT_API_URL ||
-  "https://api.konnect.network/api/v2/payments/init-payment"
+  "https://api.konnect.network/api/v2/payments/init-payment";
  
-// ---------------------------------------------------
-// PRICING PLANS
-// ---------------------------------------------------
+// -------------------- PRICING PLANS --------------------
+ 
 const pricingPlans = [
   {
     name: "خطة الطلبة",
     price: "50 د.ت",
     priceValue: 50000,
-    description: "الخطة المثالية لتفوق سريع… مصممة خصيصًا لطلبة الحقوق.",
+    description: "الخيار الأمثل للطلبة الباحثين عن السرعة، الدقة، وتوفير الوقت.",
     features: [
-      "اشتراك لمدة 7 أشهر + 5 أشهر مجانية",
+      "مدة الاشتراك: 7 أشهر + 5 أشهر مجانية",
       "500 رسالة مع الذكاء الاصطناعي",
-      "أكثر من 5000 وثيقة قانونية جاهزة",
+      "أكثر من 5000 وثيقة قانونية",
     ],
   },
- 
   {
     name: "الخطة المتقدمة",
     price: "100 د.ت",
     priceValue: 100000,
-    description: "للطلاب المتقدمين… ولمن يريد الوصول الكامل دون حدود.",
-    popular: true,
+    description:
+      "للطلاب المتقدمين والمحترفين: دقة أعلى – محتوى أكثر – دعم أسرع.",
     features: [
-      "اشتراك لمدة 7 أشهر + 5 أشهر مجانية",
+      "مدة الاشتراك: 7 أشهر + 5 أشهر مجانية",
       "1000 رسالة مع الذكاء الاصطناعي",
       "الوصول الكامل إلى جميع مجلات القانون",
     ],
+    popular: true,
   },
- 
   {
-    name: "الخطة المؤسسية – نسخة خاصة",
+    name: "الخطة المؤسسية – نسخة خاصة للهيئات والشركات",
     price: "حلول مخصّصة",
     priceValue: null,
-    enterprise: true,
     description:
-      "حل مؤسسي كامل يضمن لمؤسستك نسخة خاصة 100% من النظام وفق الهوية البصرية الخاصة بكم.",
+      "حل شامل يمنح مؤسستك نسخة خاصة 100% من المنظومة مع هوية بصرية كاملة، حماية متقدمة، واستضافة داخلية.",
     features: [
-      "نسخة Private Instance كاملة",
-      "تثبيت عبر Docker",
+      "Private Instance كاملة",
+      "تثبيت جاهز كصورة Docker",
       "DNS خاص بالمؤسسة",
-      "White Label",
-      "إدارة المستخدمين (صلاحيات – أدوار)",
-      "تكامل API كامل",
-      "دمج الشات بوت في أي موقع / تطبيق",
-      "التحكم الكامل في نموذج الذكاء الاصطناعي",
-      "حماية البيانات داخل خوادمكم",
+      "White Label كامل",
+      "إدارة مستخدمين وصلاحيات",
+      "تكامل API مع أنظمة المؤسسة",
+      "دمج الشات بوت في المواقع أو التطبيقات",
+      "التحكم الكامل في مزود الذكاء الاصطناعي",
+      "حماية كاملة داخل خوادمكم",
     ],
+    enterprise: true,
   },
 ]
  
-export default function PricingSection() {
+export function PricingSection() {
   const [selectedPlan, setSelectedPlan] = useState(null)
   const [phoneNumber, setPhoneNumber] = useState("")
   const [loading, setLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [statusMsg, setStatusMsg] = useState(null)
  
-  // ---------------------------------------------------
-  // CHECK PAYMENT STATUS
-  // ---------------------------------------------------
+  // Check payment status
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const status = params.get("payment_status")
@@ -81,35 +74,29 @@ export default function PricingSection() {
     if (status === "success") {
       setStatusMsg({
         type: "success",
-        text: "🎉 تم الدفع بنجاح! سيتم إرسال بيانات الدخول عبر SMS.",
+        text: "🎉 تم الدفع بنجاح! سيتم إرسال بيانات الدخول عبر SMS قريباً.",
       })
     } else if (status === "failed") {
       setStatusMsg({
         type: "error",
-        text: "❌ فشلت عملية الدفع، يرجى المحاولة مجددًا.",
+        text: "❌ فشلت عملية الدفع. يرجى المحاولة مجدداً.",
       })
     }
  
     window.history.replaceState({}, document.title, window.location.pathname)
   }, [])
  
-  // ---------------------------------------------------
-  // HANDLE SUBSCRIBE CLICK
-  // ---------------------------------------------------
-  const handleSubscribeClick = plan => {
+  const handleSubscribeClick = (plan) => {
     if (plan.enterprise) {
       window.location.href = "tel:+21628888612"
       return
     }
- 
     setSelectedPlan(plan)
     setShowModal(true)
   }
  
-  // ---------------------------------------------------
-  // KONNECT PAYMENT INIT
-  // ---------------------------------------------------
-  const initiateKonnectPayment = async e => {
+  // Konnect Payment
+  const initiateKonnectPayment = async (e) => {
     e.preventDefault()
  
     if (!phoneNumber || phoneNumber.length < 8) {
@@ -152,153 +139,140 @@ export default function PricingSection() {
  
   return (
     <section
-      id="pricing"
       dir="rtl"
-      className="py-20 px-4 bg-gradient-to-b from-red-900 to-red-950 relative text-white"
+      className="py-16 px-4 bg-gradient-to-b from-red-700 to-red-900 min-h-screen text-white"
     >
-      {/* ---------------------------------------------------
-      PAYMENT STATUS ALERT
-  --------------------------------------------------- */}
-  <AnimatePresence>
-    {statusMsg && (
-      <motion.div
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0 }}
-        className={`fixed top-4 right-1/2 translate-x-1/2 px-6 py-4 rounded-xl shadow-lg font-bold z-50 flex items-center gap-3
-          ${statusMsg.type === "success" ? "bg-green-600" : "bg-red-600"}`}
-      >
-        {statusMsg.text}
-        <X
-          onClick={() => setStatusMsg(null)}
-          className="w-5 h-5 cursor-pointer"
-        />
-      </motion.div>
-    )}
-  </AnimatePresence>
-
-  {/* ---------------------------------------------------
-  TITLE + NEUROMARKETING MESSAGE
-  --------------------------------------------------- */}
-  <div className="text-center mb-10">
-    <h2 className="text-3xl md:text-4xl font-bold mb-3">
-      ذكاء قانوني يجعلك في الصدارة
-    </h2>
-    <p className="text-lg opacity-90">
-      استثمر اليوم في وقتك… واجعل مستواك يرتفع تلقائيًا مع أقوى نظام ذكاء
-      اصطناعي قانوني في تونس.
-    </p>
-  </div>
-
-  {/* ---------------------------------------------------
-  PLANS GRID
-  --------------------------------------------------- */}
-  <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl">
-    {pricingPlans.map((plan, i) => (
-      <motion.div
-        key={i}
-        whileHover={{ scale: 1.04 }}
-        className={`rounded-2xl p-8 border backdrop-blur-xl transition shadow-lg
-          ${
-            plan.enterprise
-              ? "border-red-300 bg-white/10 shadow-red-500/40"
-              : "border-white/20 bg-white/10"
-          }`}
-      >
-        {plan.popular && (
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white text-red-700 px-3 py-1 rounded-full text-sm font-bold shadow">
-            الأكثر اختيارًا
-          </div>
+ 
+      {/* PAYMENT STATUS ALERT */}
+      <AnimatePresence>
+        {statusMsg && (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-6 py-4 rounded-xl shadow-xl text-white font-bold
+            ${statusMsg.type === "success" ? "bg-green-600" : "bg-red-600"}`}
+          >
+            {statusMsg.text}
+            <button onClick={() => setStatusMsg(null)}>
+              <X className="w-4 h-4 ml-4" />
+            </button>
+          </motion.div>
         )}
-
-        {plan.enterprise && (
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-700 text-white px-3 py-1 rounded-full text-sm font-bold shadow">
-            Enterprise
-          </div>
-        )}
-
-        <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-        <p className="text-4xl font-extrabold text-red-200 mb-4">
-          {plan.price}
-        </p>
-        <p className="opacity-90 mb-6">{plan.description}</p>
-
-        <ul className="space-y-3 mb-6">
-          {plan.features.map((f, index) => (
-            <li key={index} className="flex items-center">
-              <Check className="w-5 h-5 text-green-300 ml-1" /> {f}
-            </li>
+      </AnimatePresence>
+ 
+      {/* Neuromarketing Header */}
+      <div className="text-center text-2xl md:text-3xl font-extrabold mb-12 leading-relaxed">
+        قوة القانون… بذكاء اصطناعي يفهمك، يساعدك، ويختصر عليك ساعات طويلة.
+        <br />
+        لأن مستقبلك يستحق **أفضل الأدوات** و **أسرع الحلول**.
+      </div>
+ 
+      {/* Pricing Grid */}
+      <div className="container mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-7xl mx-auto">
+ 
+          {pricingPlans.map((plan, index) => (
+            <motion.div
+              key={index}
+              className={`
+                relative rounded-2xl p-8 shadow-xl border border-white/20
+                backdrop-blur-xl bg-white/10 hover:bg-white/20 transition
+                ${plan.popular ? "shadow-red-300/40 border-white" : ""}
+                ${plan.enterprise ? "shadow-yellow-300/40 border-yellow-400" : ""}
+              `}
+              whileHover={{ scale: 1.04 }}
+            >
+              {/* Popular Badge */}
+              {plan.popular && (
+                <div className="absolute top-3 right-3 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded">
+                  الأكثر اختياراً
+                </div>
+              )}
+ 
+              {/* Enterprise Badge */}
+              {plan.enterprise && (
+                <div className="absolute top-3 right-3 bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded">
+                  ENTERPRISE
+                </div>
+              )}
+ 
+              <h3 className="text-3xl font-bold mb-3">{plan.name}</h3>
+              <div className="text-4xl font-extrabold mb-4">{plan.price}</div>
+ 
+              <p className="opacity-80 mb-6 leading-relaxed">{plan.description}</p>
+ 
+              <ul className="space-y-3 mb-8">
+                {plan.features.map((f, i) => (
+                  <li key={i} className="flex items-center gap-2 opacity-90">
+                    <Check className="w-5 h-5 text-white" /> {f}
+                  </li>
+                ))}
+              </ul>
+ 
+              <Button
+                className="w-full bg-white text-red-700 font-extrabold py-3 rounded-xl hover:bg-red-100"
+                onClick={() => handleSubscribeClick(plan)}
+              >
+                {plan.enterprise ? "اتصل الآن" : "اشترك الآن"}
+              </Button>
+            </motion.div>
           ))}
-        </ul>
-
-        <Button
-          className="w-full bg-white text-red-700 font-bold py-3 rounded-xl hover:bg-red-100 transition"
-          onClick={() => handleSubscribeClick(plan)}
-        >
-          {plan.enterprise ? "اتصل بنا الآن" : "اشترك الآن"}
-        </Button>
-      </motion.div>
-    ))}
-  </div>
-
-  {/* ---------------------------------------------------
-  PAYMENT MODAL
-  --------------------------------------------------- */}
-  {showModal && selectedPlan && (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-      <motion.div
-        initial={{ scale: 0.7, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        className="bg-white text-black p-6 rounded-2xl max-w-md w-full shadow-xl"
+        </div>
+      </div>
+ 
+      {/* Payment Modal */}
+      {showModal && selectedPlan && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-xl max-w-md w-full text-black shadow-2xl">
+            <h3 className="text-2xl font-bold mb-4 text-center">
+              إتمام الدفع – {selectedPlan.name}
+            </h3>
+ 
+            <form onSubmit={initiateKonnectPayment}>
+              <input
+                type="text"
+                placeholder="رقم الهاتف"
+                className="w-full p-3 border rounded-xl mb-4 focus:ring focus:border-red-500"
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+ 
+              <Button
+                disabled={loading}
+                className="w-full bg-red-600 text-white font-bold py-3 rounded-xl"
+              >
+                {loading ? "جاري المعالجة..." : "متابعة الدفع"}
+              </Button>
+ 
+              <button
+                type="button"
+                className="w-full mt-4 text-red-600 font-bold"
+                onClick={() => setShowModal(false)}
+              >
+                إلغاء
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+ 
+      {/* Floating Call Button */}
+      <a
+        href="tel:+21628888612"
+        className="fixed bottom-6 right-6 bg-red-600 hover:bg-red-700 text-white px-6 py-4 rounded-full shadow-xl font-bold flex items-center gap-2 z-50 transition"
       >
-        <h3 className="text-xl font-bold mb-4">
-          إتمام الدفع – {selectedPlan.name}
-        </h3>
-
-        <form onSubmit={initiateKonnectPayment}>
-          <input
-            type="text"
-            placeholder="رقم الهاتف"
-            className="w-full p-3 border rounded-lg mb-4"
-            onChange={e => setPhoneNumber(e.target.value)}
-          />
-
-          <Button
-            disabled={loading}
-            className="w-full bg-red-600 text-white font-bold py-3 rounded-xl hover:bg-red-700"
-          >
-            {loading ? "جاري المعالجة..." : "متابعة الدفع"}
-          </Button>
-
-          <button
-            type="button"
-            className="w-full mt-4 text-red-600 font-bold"
-            onClick={() => setShowModal(false)}
-          >
-            إلغاء
-          </button>
-        </form>
-      </motion.div>
-    </div>
-  )}
-
-  {/* ---------------------------------------------------
-  FLOATING CTA BUTTONS
-  --------------------------------------------------- */}
-  <a
-    href="tel:+21628888612"
-    className="fixed bottom-5 left-5 bg-white text-red-700 p-4 rounded-full shadow-xl hover:bg-red-100 transition"
-  >
-    <Phone className="w-6 h-6" />
-  </a>
-
-  <a
-    href="https://wa.me/21628888612"
-    className="fixed bottom-20 left-5 bg-white text-red-700 p-4 rounded-full shadow-xl hover:bg-red-100 transition"
-  >
-    <MessageCircle className="w-6 h-6" />
-  </a>
-</section>
-)
-
+        <Phone /> نسخة مؤسسية؟ اتصل الآن
+      </a>
+ 
+      {/* WhatsApp Widget */}
+      <a
+        href="https://wa.me/21628888612?text=مرحباً، أريد نسخة مؤسسية من النظام"
+        target="_blank"
+        className="fixed bottom-6 left-6 bg-red-600 hover:bg-red-700 text-white p-4 rounded-full shadow-xl z-50 transition"
+      >
+        <MessageCircle className="w-6 h-6" />
+      </a>
+ 
+    </section>
+  )
 }
