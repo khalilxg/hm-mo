@@ -4,7 +4,8 @@ import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "./ui/button"
 import { Check, MessageCircle } from "lucide-react"
- 
+import { Phone } from "lucide-react"
+
 const pricingPlans = [
   {
     name: "خطة الطلبة",
@@ -47,7 +48,7 @@ const pricingPlans = [
 ]
  
 export function PricingSection() {
-  const [showPaymentInfo, setShowPaymentInfo] = useState(false)
+  const showPaymentInfo = true
   const [glow, setGlow] = useState(false)
  
   const paymentSectionRef = useRef(null)
@@ -78,11 +79,10 @@ export function PricingSection() {
     >
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/21628888612"
-        target="_blank"
-        className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-xl p-4 z-50 flex items-center justify-center transition transform hover:scale-110"
+        href="tel:+21628888612"
+        className="fixed bottom-6 right-6 bg-white hover:bg-red-100 text-red-600 rounded-full shadow-xl p-4 z-50 flex items-center justify-center transition transform hover:scale-110"
       >
-        <MessageCircle className="w-7 h-7" />
+        <Phone className="w-7 h-7" />
       </a>
  
       <div className="text-center text-2xl md:text-3xl font-extrabold mb-12 leading-relaxed">
@@ -138,16 +138,15 @@ export function PricingSection() {
       {/* PAYMENT INFO SECTION */}
       <AnimatePresence>
         {showPaymentInfo && (
-          <motion.div
-            ref={paymentSectionRef}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className={`
-              mt-16 max-w-3xl mx-auto transition 
-              ${glow ? "ring-4 ring-red-400 ring-opacity-60" : ""}
-            `}
-          >
+             <motion.div
+               ref={paymentSectionRef}
+               initial={{ opacity: 0, y: 40 }}
+               animate={{ opacity: 1, y: 0 }}
+               className={`
+                 mt-16 max-w-3xl mx-auto transition 
+                 ${glow ? "ring-4 ring-red-400 ring-opacity-60" : ""}
+               `}
+             >
             <div dir="rtl" className="space-y-6">
  
               {/* D17 + RIB */}
