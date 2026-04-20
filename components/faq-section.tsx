@@ -57,25 +57,28 @@ export function FAQSection() {
   return (
     <section 
       dir="rtl"
-      id="faq" className="py-20 px-4 bg-background">
+      id="faq" className="py-20 px-4 bg-background"
+    >
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-16">
           <motion.h2
-            className="text-4xl font-bold text-white mb-4"
+            className="text-4xl font-bold mb-4"
             style={{ fontFamily: "var(--font-playfair)" }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
+            dir="rtl"
           >
             الأسئلة الشائعة
           </motion.h2>
           <motion.p
-            className="text-xl text-gray-300 max-w-2xl mx-auto"
+            className="text-xl max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
+            dir="rtl"
           >
             كل ما تحتاج معرفته حول منصة مرشد قانون
           </motion.p>
@@ -95,7 +98,7 @@ export function FAQSection() {
                 className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-white/5 transition-colors rounded-lg"
                 onClick={() => toggleFAQ(index)}
               >
-                <span className="text-lg font-medium text-white pr-4">{faq.question}</span>
+                <span className="text-lg font-medium text-white pr-4" dir="rtl">{faq.question}</span>
                 <ChevronDown
                   className={`h-5 w-5 text-gray-400 transition-transform flex-shrink-0 ${
                     openIndex === index ? "rotate-180" : ""
@@ -112,7 +115,7 @@ export function FAQSection() {
                 transition={{ duration: 0.3, ease: "easeInOut" }}
                 className="overflow-hidden"
               >
-                <div className="px-6 pb-4">
+                <div className="px-6 pb-4" dir="rtl">
                   <p className="text-gray-300 leading-relaxed">{faq.answer}</p>
                 </div>
               </motion.div>
