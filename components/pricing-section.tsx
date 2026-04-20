@@ -75,6 +75,7 @@ export function PricingSection() {
   return (
     <section
       dir="rtl"
+      id="pricing"
       className="py-16 px-4 bg-gradient-to-b from-red-700 to-red-900 min-h-screen text-white relative"
     >
       {/* Floating WhatsApp Button */}
