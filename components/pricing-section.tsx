@@ -71,6 +71,14 @@ export function PricingSection() {
       setTimeout(() => setGlow(false), 1800)
     }, 200)
   }
+
+  const handleRefundRequest = () => {
+    const subject = encodeURIComponent("redund")
+    const body = encodeURIComponent(
+      "السلام عليكم،\n\nأرغب في استرجاع المصاريف بسبب دفع خاطئ.\n\nالرجاء التواصل معي في أقرب وقت ممكن.\n\nشكراً."
+    )
+    window.location.href = `mailto:contact@aibc.tn?subject=${subject}&body=${body}`
+  }
  
   return (
     <section
@@ -210,6 +218,23 @@ export function PricingSection() {
                     <span className="text-white font-medium"> مرشد قانون </span>
                     عبر رسالة SMS.
                   </p>
+
+                  {/* REFUND BUTTON */}
+                  <div className="pt-4 border-t border-white/10 mt-4">
+                    <p className="text-xs text-gray-300 leading-relaxed mb-3">
+                      لأسترجاع المصاريف في حال الدفع الخطأ، الرجاء الضغط على هذا الزر، لمراسلنا.
+                      <br />
+                      الرجاء التثبة من{" "}
+                      <span className="text-white font-semibold">mentions légales</span>{" "}
+                      أسفل هذه الصفحة.
+                    </p>
+                    <Button
+                      onClick={handleRefundRequest}
+                      className="w-full bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold py-3 rounded-xl transition-all duration-200 hover:border-white/60"
+                    >
+                      طلب استرجاع المبلغ
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
